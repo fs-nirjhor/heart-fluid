@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Heart</title>
+    <style type="text/css" media="all">
+      body {
+        background: lightyellow;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .heart {
+        mask: radial-gradient(at 70% 31%, #000 29%, #0000 30%),
+          radial-gradient(at 30% 31%, #000 29%, #0000 30%),
+          linear-gradient(#000 0 0) bottom/100% 50% no-repeat;
+        clip-path: polygon(-41% 0, 50% 91%, 141% 0);
+      }
+      .container {
+        height: 300px;
+        width: 300px;
+        position: relative;
+        background: purple;
+      }
+
+      .content {
+        position: absolute;
+        z-index: 10;
+        top: 50px;
+        left: 50px;
+        height: 200px;
+        width: 200px;
+      }
+      .renderSurface {
+        position: absolute;
+        z-index: -10;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="heart container">
+      <img
+        class="heart content"
+        src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        alt="image"
+      />
+      <!-- <canvas id="renderSurface" class="renderSurface"></canvas> -->
+    </div>
+
+    <canvas id="renderSurface" class="renderSurface"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/fluid-canvas@latest"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const canvas = document.getElementById("renderSurface");
+      const fluid = new Fluid(canvas);
+
+      fluid.mapBehaviors({
+        sim_resolution: 128,
+        dye_resolution: 512,
+
+        paused: false,
+        embedded_dither: true,
+
+        dissipation: 0.97,
+        velocity: 0.98,
+        pressure: 0.8,
+        pressure_iteration: 20,
+        curl: 0,
+        emitter_size: 0.5,
+
+        render_shaders: true,
+        multi_color: true,
+
+        render_bloom: true,
+        bloom_iterations: 8,
+        bloom_resolution: 256,
+        intensity: 0.8,
+        threshold: 0.6,
+        soft_knee: 0.7,
+
+        background_color: { r: 15, g: 15, b: 15 },
+        transparent: true,
+      });
+      fluid.applyBackground("gradient", "#e66465, #9198e5", "radial");
+      fluid.activate();
+    </script>
+  </body>
+</html>
